@@ -50,6 +50,12 @@ _putchar(c);
 ++n;
 ++format;
 }
+else if (ctype == '%')
+{
+_putchar('%');
+++n;
+++format;
+}
 else if (ctype == 'd')
 {
 c = va_arg(args, int);
@@ -67,6 +73,11 @@ _putchar(*s);
 ++s;
 }
 ++format;
+}
+else
+{
+_putchar('%');
+++n;
 }
 }
 va_end(args);
