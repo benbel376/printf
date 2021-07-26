@@ -83,4 +83,3 @@ _putchar('%');
 va_end(args);
 return (n);
 }
-#endif
