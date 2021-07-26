@@ -21,6 +21,7 @@ while (*format != '\0')
 if (*format != '%')
 {
 _putchar(*format);
+++n;
 ++format;
 continue;
 }
@@ -30,6 +31,7 @@ if (ctype == 'c')
 {
 c = va_arg(args, int);
 _putchar(c);
+++n;
 ++format;
 }
 else if (ctype == 's')
@@ -38,13 +40,12 @@ s = va_arg(args, char *);
 while (*s != '\0')
 {
 _putchar(*s);
+++n;
 ++s;
 }
 ++format;
 }
-++n;
 }
-_putchar('\n');
 va_end(args);
 return (n);
 }

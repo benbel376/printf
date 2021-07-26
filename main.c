@@ -4,7 +4,9 @@
 
 int main(void)
 {
-  _printf("Print %c %s", 'H', "Yes");
-  _printf("printing String %s", "string");
+  int n;
+  n = _printf("Print %c %s\n", 'H', "Yes");
+  _printf("printing String %s\n", "string");
+  printf("%d", n);
   return (0);
 }
