@@ -3,10 +3,26 @@
 #include "holberton.h"
 /**
  * _printf - prints whatever character is given to it.
+ * _printInt - prints integer using putchar
+ * @n: inpt to _printInt function.
  * @format: the format type of the argument
  *
  * Return: numbeer of arguments passed to the function
  */
+void _printInt(int n)
+{
+if (n < 0)
+{
+_putchar('-');
+n = -n;
+}
+
+if (n/10)
+{
+_printInt(n/10);
+}
+_putchar(n%10 + '0');
+}
 
 int _printf(const char *format, ...)
 {
@@ -31,6 +47,13 @@ if (ctype == 'c')
 {
 c = va_arg(args, int);
 _putchar(c);
+++n;
+++format;
+}
+else if (ctype == 'd')
+{
+c = va_arg(args, int);
+_printInt(c);
 ++n;
 ++format;
 }
