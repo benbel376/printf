@@ -1,89 +1,85 @@
-#include<stdio.h>
-#include<stdarg.h>
 #include "holberton.h"
-/**
- * _chPrinter - prints whatever character is given to it.
- * @format: pointer to pointer of format.
- * @c: character input
- * @n: count input
- *
- * Return: numbeer of arguments passed to the function
- */
+#include <stdlib.h>
 
-int _chPrinter(const char **format, char c, int n)
-{
-int nIn = n + 1;
-_putchar(c);
-++*format;
-return (nIn);
-}
+
 /**
- * _stPrinter - prints string;
- * @format: pointer to pointer of format.
- * @s: accepts string pointer
- * @n: accepts count number
+ * check_for_specifiers - checks if there is a valid format specifier
+ * @format: possible format specifier
  *
- * Return: number of count of character
+ * Return: pointer to valid function or NULL
  */
-int _stPrinter(const char **format, char *s, int n)
+static int (*check_for_specifiers(const char *format))(va_list)
 {
-int nIn = n;
-while (*s != '\0')
-{
-_putchar(*s);
-++nIn;
-++s;
+	unsigned int i;
+	print_t p[] = {
+		{"c", print_c},
+		{"s", print_s},
+		{"i", print_i},
+		{"d", print_d},
+		{"u", print_u},
+		{"b", print_b},
+		{"o", print_o},
+		{"x", print_x},
+		{"X", print_X},
+		{"p", print_p},
+		{"S", print_S},
+		{"r", print_r},
+		{"R", print_R},
+		{NULL, NULL}
+	};
+
+	for (i = 0; p[i].t != NULL; i++)
+	{
+		if (*(p[i].t) == *format)
+		{
+			break;
+		}
+	}
+	return (p[i].f);
+
 }
-++*format;
-return (nIn);
-}
+
 /**
- * _printf - prints input data;
- *
- * @format: format of input
+ * _printf - prints anything
+ * @format: list of argument types passed to the function
  *
  * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-int n, c;
-char *s, ctype;
-va_list args;
-va_start(args, format);
-n = 0;
-if (format == NULL)
-{
-return (-1);
-}
-while (*format != '\0')
-{
-if (*format != '%')
-{
-n = _chPrinter(&format, *format, n);
-continue;
-}
-++format;
-ctype = *format;
-if (ctype == 'c')
-{
-c = va_arg(args, int);
-n = _chPrinter(&format, c, n);
-}
-else if (ctype == '%')
-{
-n = _chPrinter(&format, '%', n);
-}
-else if (ctype == 's')
-{
-s = va_arg(args, char *);
-n = _stPrinter(&format, s, n);
-}
-else
-{
-_putchar('%');
-++n;
-}
-}
-va_end(args);
-return (n);
+	unsigned int i = 0, count = 0;
+	va_list valist;
+	int (*f)(va_list);
+
+	if (format == NULL)
+		return (-1);
+
+	va_start(valist, format);
+	while (format[i])
+	{
+		for (; format[i] != '%' && format[i]; i++)
+		{
+			_putchar(format[i]);
+			count++;
+		}
+		if (!format[i])
+			return (count);
+		f = check_for_specifiers(&format[i + 1]);
+		if (f != NULL)
+		{
+			count += f(valist);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		count++;
+		if (format[i + 1] == '%')
+			i += 2;
+		else
+			i++;
+	}
+	va_end(valist);
+	return (count);
 }
