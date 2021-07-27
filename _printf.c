@@ -48,7 +48,7 @@ char *s, ctype;
 va_list args;
 va_start(args, format);
 n = 0;
-if(format = NULL)
+if (format == NULL)
 {
 return (-1);
 }
