@@ -2,42 +2,57 @@
 #include<stdarg.h>
 #include "holberton.h"
 /**
- * _printf - prints whatever character is given to it.
- * _printInt - prints integer using putchar
- * @n: inpt to _printInt function.
- * @format: the format type of the argument
+ * _chPrinter - prints whatever character is given to it.
+ *
+ * @c: character input
+ * @n: count input
  *
  * Return: numbeer of arguments passed to the function
  */
-void _printInt(int n)
-{
-if (n < 0)
-{
-_putchar('-');
-n = -n;
-}
 
-if (n/10)
+int _chPrinter(char c, int n)
 {
-_printInt(n/10);
+int nIn = n + 1;
+_putchar(c);
+return (nIn);
 }
-_putchar(n%10 + '0');
+/**
+ * _stPrinter - prints string;
+ * @s: accepts string pointer
+ * @n: accepts count number
+ *
+ * Return: number of count of character
+ */
+int _stPrinter(char *s, int n)
+{
+int nIn = n;
+while (*s != '\0')
+{
+_putchar(*s);
+++nIn;
+++s;
 }
-
+return (nIn);
+}
+/**
+ * _printf - prints input data;
+ *
+ * @format: format of input
+ *
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
 int n, c;
 char *s, ctype;
 va_list args;
 va_start(args, format);
-
 n = 0;
 while (*format != '\0')
 {
 if (*format != '%')
 {
-_putchar(*format);
-++n;
+n = _chPrinter(*format, n);
 ++format;
 continue;
 }
@@ -46,32 +61,18 @@ ctype = *format;
 if (ctype == 'c')
 {
 c = va_arg(args, int);
-_putchar(c);
-++n;
+n = _chPrinter(c, n);
 ++format;
 }
 else if (ctype == '%')
 {
-_putchar('%');
-++n;
-++format;
-}
-else if (ctype == 'd')
-{
-c = va_arg(args, int);
-_printInt(c);
-++n;
+n = _chPrinter('%', n);
 ++format;
 }
 else if (ctype == 's')
 {
 s = va_arg(args, char *);
-while (*s != '\0')
-{
-_putchar(*s);
-++n;
-++s;
-}
+n = _stPrinter(s, n);
 ++format;
 }
 else

@@ -4,7 +4,7 @@
 
 int main(void)
 {
-  int n = _printf("print this %c %% %F\n", "ddIfo", 'K');
+  int n = _printf("print this %s %c %% %F\n", "ddIfo", 'K');
   printf("%d\n", n);
 
   return (0);
