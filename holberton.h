@@ -14,7 +14,6 @@ typedef struct print
 } print_t;
 
 int _putchar(char c);
-int print_rev(va_list y);
 int _printf(const char *format, ...);
 int print_c(va_list c);
 int print_s(va_list s);
