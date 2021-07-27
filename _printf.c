@@ -3,27 +3,29 @@
 #include "holberton.h"
 /**
  * _chPrinter - prints whatever character is given to it.
- *
+ * @format: pointer to pointer of format.
  * @c: character input
  * @n: count input
  *
  * Return: numbeer of arguments passed to the function
  */
 
-int _chPrinter(char c, int n)
+int _chPrinter(const char **format, char c, int n)
 {
 int nIn = n + 1;
 _putchar(c);
+++*format;
 return (nIn);
 }
 /**
  * _stPrinter - prints string;
+ * @format: pointer to pointer of format.
  * @s: accepts string pointer
  * @n: accepts count number
  *
  * Return: number of count of character
  */
-int _stPrinter(char *s, int n)
+int _stPrinter(const char **format, char *s, int n)
 {
 int nIn = n;
 while (*s != '\0')
@@ -32,6 +34,7 @@ _putchar(*s);
 ++nIn;
 ++s;
 }
+++*format;
 return (nIn);
 }
 /**
@@ -56,8 +59,7 @@ while (*format != '\0')
 {
 if (*format != '%')
 {
-n = _chPrinter(*format, n);
-++format;
+n = _chPrinter(&format, *format, n);
 continue;
 }
 ++format;
@@ -65,19 +67,16 @@ ctype = *format;
 if (ctype == 'c')
 {
 c = va_arg(args, int);
-n = _chPrinter(c, n);
-++format;
+n = _chPrinter(&format, c, n);
 }
 else if (ctype == '%')
 {
-n = _chPrinter('%', n);
-++format;
+n = _chPrinter(&format, '%', n);
 }
 else if (ctype == 's')
 {
 s = va_arg(args, char *);
-n = _stPrinter(s, n);
-++format;
+n = _stPrinter(&format, s, n);
 }
 else
 {

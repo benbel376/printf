@@ -3,7 +3,7 @@
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-int _chPrinter(char c, int n);
-int _stPrinter(char *s, int n);
+int _chPrinter(const char **format, char c, int n);
+int _stPrinter(const char **format, char *s, int n);
 
 #endif
